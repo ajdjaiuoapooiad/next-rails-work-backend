@@ -1,7 +1,8 @@
 class Job < ApplicationRecord
     belongs_to :company, class_name: 'User', foreign_key: 'company_id'
     has_many :applications # 応募との関連付け
-  
+    has_one_attached :image # 画像追加
+
     validates :title, presence: true
     validates :description, presence: true
     validates :location, presence: true
