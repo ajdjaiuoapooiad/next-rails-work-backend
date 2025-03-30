@@ -1,6 +1,8 @@
 # app/models/profile.rb
 class Profile < ApplicationRecord
   belongs_to :user
+  has_one_attached :user_icon
+  has_one_attached :bg_image
 
   validates :introduction, length: { maximum: 1000 }, allow_blank: true
   validates :skills, length: { maximum: 1000 }, allow_blank: true
