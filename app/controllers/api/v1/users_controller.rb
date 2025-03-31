@@ -3,32 +3,40 @@ class Api::V1::UsersController < ApplicationController
     before_action :set_user, only: [:show, :update, :destroy]
 
 
-  def show_by_id
-    @user = User.find_by(id: params[:id])
-    if @user
-      @profile = @user.profile
-      user_icon_url = nil # 初期化
 
-      if @profile&.user_icon&.attached?
-        # Active Storageを使用している場合、rails_blob_urlで直接URLを生成
-        user_icon_url = rails_blob_url(@profile.user_icon)
-      elsif @profile&.user_icon_url # Active Storageを使用していない場合
-        # 提供されたJSONデータ構造からURLを抽出
-        user_icon_url = @profile.user_icon_url
-      end
+    def show_by_id
+      @user = User.find_by(id: params[:id])
+      if @user
+        @profile = @user.profile
+        user_icon_url = nil
+        bg_image_url = nil
 
-      render json: {
-        id: @user.id,
-        name: @user.name,
-        user_type: @user.user_type,
-        profile: {
-          user_icon_url: user_icon_url
+        if @profile&.user_icon&.attached?
+          user_icon_url = rails_blob_url(@profile.user_icon)
+        elsif @profile&.user_icon_url
+          user_icon_url = @profile.user_icon_url
+        end
+
+        if @profile&.bg_image&.attached?
+          bg_image_url = rails_blob_url(@profile.bg_image)
+        elsif @profile&.bg_image_url
+          bg_image_url = @profile.bg_image_url
+        end
+
+        render json: {
+          id: @user.id,
+          name: @user.name,
+          user_type: @user.user_type,
+          profile: {
+            user_icon_url: user_icon_url,
+            bg_image_url: bg_image_url
+          }
         }
-      }
-    else
-      render json: { error: "User with id #{params[:id]} not found" }, status: :not_found
+      else
+        render json: { error: "User with id #{params[:id]} not found" }, status: :not_found
+      end
     end
-  end
+
 
 
   
