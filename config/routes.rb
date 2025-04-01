@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       resources :jobs, only: [:index, :show, :create, :update, :destroy]
 
       # メッセージ関連
-      resources :messages, only: [:index, :create]
+      resources :messages, only: [:index, :create, :show]
 
       # 認証関連
       post '/login', to: 'authentication#login'
