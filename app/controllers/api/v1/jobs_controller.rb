@@ -6,14 +6,26 @@ class Api::V1::JobsController < ApplicationController
 
   def index
     @jobs = Job.all.map do |job|
-      job.as_json.merge(image_url: job.image.attached? ? url_for(job.image) : nil)
+      user_icon_url = job.company.profile&.user_icon.attached? ? url_for(job.company.profile.user_icon) : nil
+      job_json = job.as_json.merge(
+        image_url: job.image.attached? ? url_for(job.image) : nil,
+        user_name: job.company.name,
+        user_icon_url: user_icon_url
+      )
+      job_json
     end
     render json: @jobs
   end
 
   def show
-    render json: @job.as_json.merge(image_url: @job.image.attached? ? url_for(@job.image) : nil)
+    user_icon_url = @job.company.profile&.user_icon.attached? ? url_for(@job.company.profile.user_icon) : nil
+    render json: @job.as_json.merge(
+      image_url: @job.image.attached? ? url_for(@job.image) : nil,
+      user_name: @job.company.name,
+      user_icon_url: user_icon_url
+    )
   end
+
 
   def create
     @job = current_user.jobs.build(job_params) # current_userは企業ユーザー
