@@ -3,29 +3,29 @@ class Api::V1::MessagesController < ApplicationController
 
 
   
-  def index
-    @messages = Message.where(sender_id: current_user.id).or(Message.where(receiver_id: current_user.id))
-
-    # メッセージとユーザー情報を組み合わせたレスポンスを作成
-    messages_with_user_info = @messages.map do |message|
-      sender = User.find_by(id: message.sender_id)
-      receiver = User.find_by(id: message.receiver_id)
-
-      {
-        id: message.id,
-        sender_id: message.sender_id,
-        receiver_id: message.receiver_id,
-        content: message.content,
-        created_at: message.created_at,
-        sender_name: sender&.name,
-        sender_icon: sender&.profile&.user_icon.attached? ? url_for(sender.profile.user_icon) : nil,
-        receiver_name: receiver&.name,
-        receiver_icon: receiver&.profile&.user_icon.attached? ? url_for(receiver.profile.user_icon) : nil
-      }
+    def index
+      @messages = Message.where(sender_id: current_user.id).or(Message.where(receiver_id: current_user.id))
+  
+      # メッセージとユーザー情報を組み合わせたレスポンスを作成
+      messages_with_user_info = @messages.map do |message|
+        sender = User.find_by(id: message.sender_id)
+        receiver = User.find_by(id: message.receiver_id)
+  
+        {
+          id: message.id,
+          sender_id: message.sender_id,
+          receiver_id: message.receiver_id,
+          content: message.content,
+          created_at: message.created_at,
+          sender_name: sender&.name,
+          sender_icon: sender&.profile&.user_icon.attached? ? url_for(sender.profile.user_icon) : nil,
+          receiver_name: receiver&.name,
+          receiver_icon: receiver&.profile&.user_icon.attached? ? url_for(receiver.profile.user_icon) : nil
+        }
+      end
+  
+      render json: messages_with_user_info
     end
-
-    render json: messages_with_user_info
-  end
 
 
   def show
