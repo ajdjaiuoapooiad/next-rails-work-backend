@@ -5,7 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "~> 3.3.0"
 
 # Rails
-gem "rails", "~> 7.2.0"
+gem "rails", "~>  bin/rails credentials:edit -v
 
 # Database
 group :development, :test do
@@ -25,6 +25,8 @@ gem "bootsnap", require: false
 gem "rack-cors"
 gem "bcrypt", "~> 3.1.20"
 gem "jwt"
+
+gem 'google-cloud-storage'
 # gem "image_processing", "~> 1.2" # 必要に応じてコメントアウトを解除
 
 # Development gems
