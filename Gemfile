@@ -5,7 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "~> 3.3.0"
 
 # Rails
-gem "rails", "~>  bin/rails credentials:edit -v
+gem "rails", "~> 7.2.0" # Rails のバージョンを正しく指定
 
 # Database
 group :development, :test do
