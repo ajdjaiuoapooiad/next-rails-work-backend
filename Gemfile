@@ -37,3 +37,5 @@ group :test do
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false
 end
+
+gem 'aws-sdk-s3', require: false
