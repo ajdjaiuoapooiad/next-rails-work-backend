@@ -8,13 +8,12 @@ ruby "~> 3.3.0"
 gem "rails", "~> 7.2.0"
 
 # Database
-group :development, :test do
-  gem "sqlite3", ">= 1.4"
-end
+gem "sqlite3", ">= 1.4"
 
 group :production do
-  gem "pg", ">= 1.3.5" # 最新の安定バージョンを使用
+  gem "pg", "1.3.5"
 end
+
 
 
 # Web server
